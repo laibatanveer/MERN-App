@@ -7,7 +7,7 @@ export default function Category() {
     const [categories, setCategories] = useState([]); // Changed the state name to 'categories' to avoid naming conflict in the map function
 
     useEffect(() => {
-        axios.get('http://localhost:3000/category/allCategories')
+        axios.get('http://localhost:3000/api/category/allCategories')
             .then(json => {
                 // Adjusted to match the structure of your provided API
                 setCategories(json.data)

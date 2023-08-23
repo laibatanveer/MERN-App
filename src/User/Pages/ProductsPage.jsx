@@ -74,7 +74,7 @@ const {cart_state, cart_dispatch} =useContext(CartContext)
 console.log(cart_state)
 
     axios
-      .get(`http://localhost:3000/products/product/${_id}}`)
+      .get(`http://localhost:3000/api/products/product/${_id}}`)
       .then((response) => {
         setProduct(response.data.foundProduct);
       })

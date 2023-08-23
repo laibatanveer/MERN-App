@@ -16,7 +16,7 @@ function Login() {
 
     const payload = { email, password };
     axios
-      .post("http://localhost:3000/registration/login", payload)
+      .post("http://localhost:3000/api/registration/login", payload)
       .then((json) => {
         Cookies.set("token", json.data.token);
 

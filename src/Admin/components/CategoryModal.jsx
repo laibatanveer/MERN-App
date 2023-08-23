@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import { storage } from "../utils/FirebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export default function CategoryModal() {
+export default function CategoryModal({recallData}) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -28,9 +28,10 @@ export default function CategoryModal() {
           };
 
           axios
-            .post("http://localhost:3000/category/createCategory", payload) 
+            .post("http://localhost:3000/api/category/createCategory", payload) 
             .then((response) => {
-              console.log(response.data);
+              // console.log(response.data.category);
+              recallData(response.data.category)
               handleClose(); 
             
             })

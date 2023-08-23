@@ -27,7 +27,7 @@ export default function BrandModal() {
           };
 
           axios
-            .post("http://localhost:3000/brands/createBrand", payload) 
+            .post("http://localhost:3000/api/brands/createBrand", payload) 
             .then((response) => {
               console.log(response.data);
               handleClose();

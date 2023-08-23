@@ -9,7 +9,7 @@ export default function ProductsByCategpry() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:3000/products/category/${category}`)
+            .get(`http://localhost:3000/api/products/category/${category}`)
             .then((response) => {
                 setProducts(response.data.products);
             })

@@ -9,31 +9,27 @@ export default function Category() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/category/allCategories")
+      .get("http://localhost:3000/api/category/allCategories")
       .then((json) => setCategory(json.data))
       .catch((error) => console.log(error));
   }, []);
 
-  function deleteCategory(_id) {
+  function deleteCategory(id) {
+    console.log(id);
     axios
-      .delete(`http://localhost:3000/category/deleteCategory/${_id}`)
-      .then((response) => {
-        if (response.data.success) {
-          setCategory(category.filter(val => val._id !== _id));
-        } else {
-          console.error("Error while deleting category.");
-        }
+      .delete(`http://localhost:3000/api/category/deleteCategory/${id}`)
+      .then((json) => {
+        setCategory(json.data.category);
+        console.log(json.data);
       })
       .catch((error) => console.error("Error:", error));
   }
-
-  
 
   return (
     <div className="container">
       <div className="d-flex justify-content-between align-items-center bg-primary p-2 my-3 rounded">
         <span className="fs-4 fw-bold text-white">CATEGORIES</span>
-        <CategoryModal />
+        <CategoryModal recallData={setCategory} />
       </div>
 
       <div className="container">

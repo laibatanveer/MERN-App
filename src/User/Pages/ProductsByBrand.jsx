@@ -10,7 +10,7 @@ export default function ProductsByBrand() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:3000/products/brand/${brand}`)
+            .get(`http://localhost:3000/api/products/brand/${brand}`)
             .then((response) => {
                 setProducts(response.data.products);
             })

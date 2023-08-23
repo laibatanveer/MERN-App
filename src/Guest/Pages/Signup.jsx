@@ -18,7 +18,7 @@ function SignUpPage() {
     const payload = { username, email, password, role };
 
     axios
-      .post("http://localhost:3000/registration/signup", payload)
+      .post("http://localhost:3000/api/registration/signup", payload)
       .then((response) => {
         console.log(response.data);
 

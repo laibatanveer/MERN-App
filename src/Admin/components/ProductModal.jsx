@@ -1,12 +1,11 @@
-
 import React, { useEffect, useState } from "react";
-import axios from "axios"; 
+import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { storage } from "../utils/FirebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export default function ProductModal() {
+export default function ProductModal({ recallData }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -20,13 +19,19 @@ export default function ProductModal() {
   const [categoriesList, setCategoriesList] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/brands/allBrands')
-      .then((json) => setBrandsList(json.data.brands));
+    axios.get("http://localhost:3000/api/brands/allBrands").then((json) => {
+      setBrandsList(json.data.Brand);
+      setBrand(json.data.Brand[0].BrandName);
+    });
   }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/cateogry/allCategories')
-      .then((json) => setCategoriesList(json.data)); 
+    axios
+      .get("http://localhost:3000/api/category/allCategories")
+      .then((json) => {
+        setCategoriesList(json.data);
+        setCategory(json.data[0].CategoryName);
+      });
   }, []);
 
   const AddProduct = (e) => {
@@ -46,20 +51,18 @@ export default function ProductModal() {
           };
 
           axios
-            .post("http://localhost:3000/products/createProduct", payload) 
+            .post("http://localhost:3000/api/products/createProduct", payload)
             .then((response) => {
               console.log(response.data);
-              handleClose(); 
-            
+              recallData(response.data.Product);
+              handleClose();
             })
             .catch((error) => {
               console.log(error.message);
-              
             });
         })
         .catch((error) => {
           console.log(error.message);
-          
         });
     });
   };
@@ -75,6 +78,7 @@ export default function ProductModal() {
           <Modal.Title>ADD Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          ,, jdtryiynn{" "}
           <form onSubmit={AddProduct}>
             <div className="mb-3">
               <label htmlFor="ProductName" className="form-label">
@@ -114,7 +118,7 @@ export default function ProductModal() {
                 id="brand"
               />
             </div> */}
-             <div className="mb-3">
+            <div className="mb-3">
               <label htmlFor="category" className="form-label">
                 Category
               </label>

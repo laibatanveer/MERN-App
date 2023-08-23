@@ -8,7 +8,7 @@ export default function Brands() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/brands/allBrands")
+      .get("http://localhost:3000/api/brands/allBrands")
       .then((response) => {
         setBrands(response.data.Brand);
       })

@@ -7,9 +7,9 @@ export default function Brands() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/brands/allBrands")
+      .get("http://localhost:3000/api/brands/allBrands")
       .then((json) => {
-        setBrands(json.data);
+        setBrands(json.data.Brand);
       })
 
       .catch((error) => console.log(error));
@@ -31,31 +31,15 @@ export default function Brands() {
               <th scope="col">Brand Image</th>
             </tr>
           </thead>
-           <tbody>
-            {/* {brands.map((val, key) => (
+          <tbody>
+            {brands.map((val, key) => (
               <tr key={key}>
-                <th scope="row">{val._id}</th>
+                <td>{val._id}</td>
                 <td>{val.BrandName}</td>
-                <td><img src={val.BrandImage} className="img-fluid" style={{height:'5vh'}} alt={val.BrandName} /></td>
+                <td><img src={val.BrandImage} className="w-25" alt="" srcset="" /></td>
               </tr>
-            ))} */}
-            {Array.isArray(brands) &&
-              brands.map((val, key) => (
-                <tr key={key}>
-                  <th scope="row">{val._id}</th>
-                  <td>{val.BrandName}</td>
-                  <td>
-                    <img
-                      src={val.BrandImage}
-                      className="img-fluid"
-                      style={{ height: "5vh" }}
-                      alt={val.BrandName}
-                    />
-                  </td>
-                </tr>
-              ))}
-          </tbody>  
-      
+            ))}
+          </tbody>
         </table>
       </div>
     </div>
