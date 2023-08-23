@@ -8,9 +8,9 @@ export default function Brands() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/brands/getAllBrands")
+      .get("http://localhost:3000/brands/allBrands")
       .then((response) => {
-        // Use response.data.Brand based on your provided API structure
+    
         setBrands(response.data.Brand);
       })
       .catch((err) => alert(err.message));

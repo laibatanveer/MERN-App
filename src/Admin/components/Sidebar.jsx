@@ -18,6 +18,17 @@ export default function Sidebar() {
       url: "/category",
       icon: <BiCategoryAlt />,
     },
+    {
+      tab: "Brand",
+      url: "/brand",
+      icon: <BiCategoryAlt />,
+    },
+    ,
+    {
+      tab: "Products",
+      url: "/products",
+      icon: <BiCategoryAlt />,
+    },
   ];
 
   return (

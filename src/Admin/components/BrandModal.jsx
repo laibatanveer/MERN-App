@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import axios from "axios"; 
 import Button from "react-bootstrap/Button";
@@ -6,42 +5,39 @@ import Modal from "react-bootstrap/Modal";
 import { storage } from "../utils/FirebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export default function CategoryModal() {
+export default function BrandModal() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [CategoryName, setCategoryName] = useState("");
-  const [CategoryImage, setCategoryImage] = useState(null);
+  const [BrandName, setBrandName] = useState("");
+  const [BrandImage, setBrandImage] = useState(null);
 
-  const AddCategory = (e) => {
+  const AddBrand = (e) => {
     e.preventDefault();
 
-    const storageRef = ref(storage, `images/${CategoryImage.name}`);
+    const storageRef = ref(storage, `images/${BrandImage.name}`);
 
-    uploadBytes(storageRef, CategoryImage).then((snapshot) => {
+    uploadBytes(storageRef, BrandImage).then((snapshot) => {
       getDownloadURL(snapshot.ref)
         .then((url) => {
           const payload = {
-            CategoryName,
-            CategoryImage: url,
+            BrandName,
+            BrandImage: url,
           };
 
           axios
-            .post("http://localhost:3000/category/createCategory", payload) 
+            .post("http://localhost:3000/brands/createBrand", payload) 
             .then((response) => {
               console.log(response.data);
-              handleClose(); 
-            
+              handleClose();
             })
             .catch((error) => {
               console.log(error.message);
-              
             });
         })
         .catch((error) => {
           console.log(error.message);
-          
         });
     });
   };
@@ -49,35 +45,35 @@ export default function CategoryModal() {
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
-        Add Category
+        Add Brand
       </Button>
 
       <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>ADD CATEGORY</Modal.Title>
+          <Modal.Title>ADD BRAND</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={AddCategory}>
+          <form onSubmit={AddBrand}>
             <div className="mb-3">
-              <label htmlFor="CategoryName" className="form-label">
-                Category Name
+              <label htmlFor="BrandName" className="form-label">
+                Brand Name
               </label>
               <input
-                value={CategoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
+                value={BrandName}
+                onChange={(e) => setBrandName(e.target.value)}
                 type="text"
                 className="form-control"
-                id="CategoryName"
+                id="BrandName"
               />
             </div>
 
             <div className="mb-3">
               <label htmlFor="formFile" className="form-label">
-                Category Image
+                Brand Image
               </label>
               <input
                 className="form-control"
-                onChange={(e) => setCategoryImage(e.target.files[0])}
+                onChange={(e) => setBrandImage(e.target.files[0])}
                 type="file"
                 id="formFile"
               />

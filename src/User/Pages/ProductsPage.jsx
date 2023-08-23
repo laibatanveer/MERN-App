@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ReactStars from "react-stars";
@@ -8,10 +8,12 @@ import {
   RiArrowDropDownLine,
   RiShoppingCartLine,
 } from "react-icons/ri";
+import {CartContext} from '../CartContext/context'
 
 export default function ProductsPage() {
-  const { ProductName } = useParams();
- 
+  const { _id } = useParams();
+
+
   const [product, setProduct] = useState({});
   const [review, setReview] = useState("");
   const [ratingStar, setRatingStar] = useState(0);
@@ -21,6 +23,8 @@ export default function ProductsPage() {
   const ratingChanged = (newRating) => {
     setRatingStar(newRating);
   };
+
+const {cart_state, cart_dispatch} =useContext(CartContext)
 
   const submitReview = () => {
     const payload = {
@@ -53,6 +57,11 @@ export default function ProductsPage() {
 
     console.log(payload);
 
+    cart_dispatch({
+      type: "ADD_TO_CART",
+      payload
+    })
+
     Swal.fire({
       title: "Added to Cart!",
       text: "Check your Cart for Check Out",
@@ -62,21 +71,24 @@ export default function ProductsPage() {
   };
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/products/product/${ProductName}}`)
-      .then((response) => {
-        setProduct(response.data.Product);
+console.log(cart_state)
 
+    axios
+      .get(`http://localhost:3000/products/product/${_id}}`)
+      .then((response) => {
+        setProduct(response.data.foundProduct);
       })
       .catch((error) => {
         console.log("Error fetching product:", error);
       });
   }, [ProductName]);
 
+  
+
   return (
     <div className="container">
       <div className="text-center my-5">
-        <h1>{product.ProductName} - {product.Price}</h1>
+        <h1>{product.ProductName} - 000$</h1>
 
         <div className="d-flex justify-content-center">
           <ReactStars
