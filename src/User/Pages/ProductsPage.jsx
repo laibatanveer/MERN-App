@@ -33,9 +33,10 @@ const {cart_state, cart_dispatch} =useContext(CartContext)
       rating: ratingStar,
     };
 
-    console.log(payload);
+    // console.log(payload);
 
-    setSubmittedReviews([...submittedReviews, payload]);
+    setSubmittedReviews(prevReviews => [...prevReviews, payload]);
+
 
     Swal.fire({
       title: "Successfully Submitted!",
@@ -52,7 +53,7 @@ const {cart_state, cart_dispatch} =useContext(CartContext)
     const payload = {
       ...product,
       productQuantity,
-      totalPrice: `100$` * productQuantity,
+      totalPrice: {price} * productQuantity,
     };
 
     console.log(payload);
@@ -76,19 +77,21 @@ console.log(cart_state)
     axios
       .get(`http://localhost:3000/api/products/product/${_id}}`)
       .then((response) => {
-        setProduct(response.data.foundProduct);
+        // setProduct(response.data.Product);
+        setProduct(response.data.Product[0]);
+
       })
       .catch((error) => {
         console.log("Error fetching product:", error);
       });
-  }, [ProductName]);
+  }, []);
 
   
 
   return (
     <div className="container">
       <div className="text-center my-5">
-        <h1>{product.ProductName} - 000$</h1>
+        <h1>{product.ProductName} - {product.price}</h1>
 
         <div className="d-flex justify-content-center">
           <ReactStars

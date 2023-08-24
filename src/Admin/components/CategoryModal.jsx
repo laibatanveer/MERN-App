@@ -49,7 +49,7 @@ export default function CategoryModal({recallData}) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="light text-black" onClick={handleShow}>
         Add Category
       </Button>
 

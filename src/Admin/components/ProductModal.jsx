@@ -69,13 +69,13 @@ export default function ProductModal({ recallData }) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="light text-black" onClick={handleShow}>
         Add Product
       </Button>
 
       <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>ADD Product</Modal.Title>
+          <Modal.Title >ADD Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           ,, jdtryiynn{" "}

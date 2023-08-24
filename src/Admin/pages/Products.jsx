@@ -26,8 +26,8 @@ export default function Products() {
 
   return (
     <div className="container">
-      <div className="d-flex justify-content-between align-items-center bg-primary p-2 my-3 rounded">
-        <span className="fs-4 fw-bold text-white">CATEGORIES</span>
+      <div className="d-flex justify-content-between align-items-center bg-warning p-2 my-3 rounded">
+        <span className="fs-4 fw-bold text-black bg-warning">PROODUCTS</span>
         <ProductModal recallData={setProducts} />
       </div>
 

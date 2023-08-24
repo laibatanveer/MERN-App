@@ -44,7 +44,7 @@ export default function BrandModal() {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="light text-black" onClick={handleShow}>
         Add Brand
       </Button>
 
