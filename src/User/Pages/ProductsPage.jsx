@@ -14,7 +14,7 @@ export default function ProductsPage() {
   const { _id } = useParams();
 
 
-  const [product, setProduct] = useState({});
+  const [Product, setProduct] = useState({});
   const [review, setReview] = useState("");
   const [ratingStar, setRatingStar] = useState(0);
   const [productQuantity, setProductQuantity] = useState(1);
@@ -28,7 +28,7 @@ const {cart_state, cart_dispatch} =useContext(CartContext)
 
   const submitReview = () => {
     const payload = {
-      productID: _id,
+      productID: Product._id,
       review: review,
       rating: ratingStar,
     };
@@ -51,7 +51,7 @@ const {cart_state, cart_dispatch} =useContext(CartContext)
 
   const addToCart = () => {
     const payload = {
-      ...product,
+      ...Product,
       productQuantity,
       totalPrice: {price} * productQuantity,
     };
@@ -73,6 +73,7 @@ const {cart_state, cart_dispatch} =useContext(CartContext)
 
   useEffect(() => {
 console.log(cart_state)
+console.log(_id)
 
     axios
       .get(`http://localhost:3000/api/products/product/${_id}}`)
@@ -86,12 +87,12 @@ console.log(cart_state)
       });
   }, []);
 
-  
+
 
   return (
     <div className="container">
       <div className="text-center my-5">
-        <h1>{product.ProductName} - {product.price}</h1>
+        <h1>{Product.ProductName} - {Product.price}</h1>
 
         <div className="d-flex justify-content-center">
           <ReactStars
@@ -128,10 +129,10 @@ console.log(cart_state)
 
       <div className="row">
         <div className="col-md-6">
-          {product.ProductImage && (
+          {Product.ProductImage && (
             <img
-              src={product.ProductImage}
-              alt={product.ProductName}
+              src={Product.ProductImage}
+              alt={Product.ProductName}
               className="img-fluid w-60 h-50 rounded ms-6 mt-4 "
             />
           )}
@@ -141,9 +142,9 @@ console.log(cart_state)
           <div className="container">
             <div className="mb-5">
               <h2 className="text-center">Reviews</h2>
-              {product.reviews &&
-                product.reviews.length > 0 &&
-                product.reviews.map((reviewItem, index) => (
+              {Product.reviews &&
+                Product.reviews.length > 0 &&
+                Product.reviews.map((reviewItem, index) => (
                   <div key={index} className="card my-3">
                     <div className="card-body">
                       <p>{reviewItem.review}</p>

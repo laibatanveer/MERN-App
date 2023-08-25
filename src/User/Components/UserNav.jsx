@@ -9,7 +9,25 @@ import Cookies from 'js-cookie';
 
 function UserNav() {
     const { state, dispatch } = useContext(GlobalContext)
+    // const [searchTerm, setSearchTerm] = useState('');
+    // const [searchResults, setSearchResults] = useState([]);
 
+
+    // useEffect(() => {
+    //   if (searchTerm === '') {
+    //     setSearchResults([]);
+    //     return;
+    //   }
+  
+    //   // For simplicity, we're just searching products here. You can expand this to search brands and categories too.
+    //   axios.get(`http://localhost:3000/api/products/allProducts?search=${searchTerm}`)
+    //     .then(response => {
+    //       setSearchResults(response.data);
+    //     })
+    //     .catch(error => {
+    //       console.error('Error fetching search results:', error);
+    //     });
+    // }, [searchTerm]);
   const bgImg =
     "https://image.slidesdocs.com/responsive-images/background/plant-floral-clean-line-yellow-nature-powerpoint-background_324e1ddf60__960_540.jpg";
 
@@ -32,6 +50,25 @@ function UserNav() {
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+        {/* <div className="d-flex gap-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
+            {searchResults.length > 0 && (
+              <div className="dropdown-menu show">
+                {searchResults.map(result => (
+                  <Link to={`/products/${result._id}`} className="dropdown-item">
+                    {result.ProductName}
+                  </Link>
+                ))}
+
+              </div>
+               
+               )} */}
           <Nav className="ms-auto">
             <Link className="nav-link fw-normal" to="/">
               <h4>Home</h4>

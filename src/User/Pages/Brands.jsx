@@ -30,11 +30,11 @@ export default function Brands() {
               to={`/products/brand/${brand.BrandName}`}
               onClick={() => console.log(`/products/brand/${brand.BrandName}`)}
             >
-              <Card className="shadow p-2 mb-2 bg-body-tertiary rounded d-flex flex-column ">
+              <Card className="rounded-top bg-light bg-gradient h-100">
                 <div className="mt-auto ">
                   <Card.Img
                     variant="top"
-                    className="card-image "
+                    className="img-fluid"
                     style={{ height: "40vh" }}
                     src={brand.BrandImage}
                   />

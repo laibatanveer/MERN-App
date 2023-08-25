@@ -9,15 +9,11 @@ export default function Products() {
 
   useEffect(() => {
     axios
-      .get("https://localhost:3000/products/allProducts")
-      .then((response) => {
-        // Use response.data.Product based on your provided API structure
-        setProducts(response.data.Product);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the products:", error);
-      });
+      .get("http://localhost:3000/api/products/allProducts")
+      .then((json) => setProducts(json.data.Product))
+      .catch((error) => console.log(error));
   }, []);
+
 
   return (
     <div className="container d-flex">
@@ -38,7 +34,7 @@ export default function Products() {
           {products.map((product, index) => (
             <div className="col" key={index}>
               <Link
-                className="text-decoration-none"
+                className="text-decoration-none d-flex"
                 to={`/products/${product._id}`}  
               >
                 <Card className="rounded-top bg-light bg-gradient h-100">

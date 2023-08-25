@@ -4,18 +4,13 @@ import { BiCategory } from "react-icons/bi";
 import axios from "axios";
 
 const Sidebar = () => {
-  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState([]);
 
   useEffect(() => {
     axios
-    .get("https://localhost:3000/category/allCategories")  
-      .then((response) => {
-       
-        setCategories(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching categories:", error);
-      });
+      .get("http://localhost:3000/api/category/allCategories")
+      .then((json) => setCategory(json.data))
+      .catch((error) => console.log(error));
   }, []);
 
   return (
@@ -46,7 +41,7 @@ const Sidebar = () => {
           fontFamily: "Oswald",
         }}
       >
-        {categories.map((category, index) => (
+        {category.map((category, index) => (
           <li
             key={index}
             style={{
