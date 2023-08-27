@@ -49,6 +49,9 @@ export default function Products() {
                       
 
                       <br />
+                      <small className="fw-light fst-italic"> {product.brand}</small>
+<br />
+<br />
                       <small className="fw-light"> {product.price}Rs.</small>
                     </Card.Title>
                   </Card.Body>
