@@ -8,11 +8,10 @@ import {
   RiArrowDropDownLine,
   RiShoppingCartLine,
 } from "react-icons/ri";
-import {CartContext} from '../CartContext/context'
+import { CartContext } from "../CartContext/context";
 
 export default function ProductsPage() {
   const { _id } = useParams();
-
 
   const [Product, setProduct] = useState({});
   const [review, setReview] = useState("");
@@ -24,19 +23,20 @@ export default function ProductsPage() {
     setRatingStar(newRating);
   };
 
-const {cart_state, cart_dispatch} =useContext(CartContext)
+  const { cart_state, cart_dispatch } = useContext(CartContext);
 
   const submitReview = () => {
     const payload = {
       productID: Product._id,
+      price: Product.price,
+
       review: review,
       rating: ratingStar,
     };
 
     // console.log(payload);
 
-    setSubmittedReviews(prevReviews => [...prevReviews, payload]);
-
+    setSubmittedReviews((prevReviews) => [...prevReviews, payload]);
 
     Swal.fire({
       title: "Successfully Submitted!",
@@ -53,15 +53,15 @@ const {cart_state, cart_dispatch} =useContext(CartContext)
     const payload = {
       ...Product,
       productQuantity,
-      totalPrice: {price} * productQuantity,
+      totalPrice:  Product.price  * productQuantity,
     };
 
     console.log(payload);
 
     cart_dispatch({
       type: "ADD_TO_CART",
-      payload
-    })
+      payload,
+    });
 
     Swal.fire({
       title: "Added to Cart!",
@@ -72,27 +72,27 @@ const {cart_state, cart_dispatch} =useContext(CartContext)
   };
 
   useEffect(() => {
-console.log(cart_state)
-console.log(_id)
+    console.log(cart_state);
+    console.log(_id);
 
     axios
-      .get(`http://localhost:3000/api/products/product/${_id}}`)
+      .get(`http://localhost:3000/api/products/product/${_id}`)
       .then((response) => {
-        // setProduct(response.data.Product);
-        setProduct(response.data.Product[0]);
-
+        setProduct(response.data.foundProduct);
+        // setProduct(response.data.Product[0]);
+        console.log(response.data.foundProduct);
       })
       .catch((error) => {
         console.log("Error fetching product:", error);
       });
   }, []);
 
-
-
   return (
     <div className="container">
       <div className="text-center my-5">
-        <h1>{Product.ProductName} - {Product.price}</h1>
+        <h1>
+          {Product.ProductName} - {Product.price}
+        </h1>
 
         <div className="d-flex justify-content-center">
           <ReactStars

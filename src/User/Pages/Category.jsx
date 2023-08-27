@@ -21,7 +21,7 @@ export default function Category() {
             <h2>CATEGORIES</h2>
           </div>
     
-          <div className="row">
+          <div className="d-flex justify-content-center align-items-center">
             {categories.map((category, index) => (
               <div className="col-md-4 my-4" key={index}>
                 <Link

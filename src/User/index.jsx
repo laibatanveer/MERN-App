@@ -9,7 +9,7 @@ import ProductsByBrand from "./Pages/ProductsByBrand";
 import Profile from "./Pages/Profile";
 import ProductsByCategory from "./Pages/ProductsByCategory";
 import ProductPage from "./Pages/ProductsPage";
-import CustomCart from "./Pages/CustomCart";
+import CustomCart from "./Pages/Cart";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 export default function User() {
