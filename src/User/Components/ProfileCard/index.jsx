@@ -125,8 +125,10 @@ export default function ProfileCard() {
           alt="Profile"
         />
       </div>
-      <div className="card__title">{currentToken.email}</div>
+      <div className="card__title">{currentToken.username}</div>
+      <div className="card__subtitle">{currentToken.email}</div>
       <div className="card__subtitle">{currentToken.role}</div>
+
     </div>
    </div>
   );
