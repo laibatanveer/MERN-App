@@ -3,7 +3,7 @@ import { RiMailFill } from "react-icons/ri";
 import { FaUserAlt, FaUserLock } from "react-icons/fa";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { GlobalContext } from '../../Context/context'
+import { GlobalContext } from "../../Context/context";
 
 function SignUpPage() {
   const [username, setUsername] = useState("");
@@ -22,7 +22,6 @@ function SignUpPage() {
       .then((response) => {
         console.log(response.data);
 
-        // Let's say the response contains a JWT token. You would update your global state like:
         dispatch({ type: "SET_TOKEN", payload: response.data.token });
 
         Swal.fire({
@@ -43,7 +42,6 @@ function SignUpPage() {
       });
   };
 
-
   return (
     <div
       className="d-flex justify-content-center align-items-center"
@@ -54,7 +52,6 @@ function SignUpPage() {
           className="card-body rounded-5"
           style={{
             height: "50vh",
-            width: "20vw",
           }}
         >
           <h3 className="text-center fw-bold mb-4">SIGN UP</h3>

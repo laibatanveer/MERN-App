@@ -12,21 +12,18 @@ const ComponentByRole = {
   guest: Guest,
 };
 
-const getUserRole = (role) =>
-  ComponentByRole[role] || ComponentByRole["guest"];
+const getUserRole = (role) => ComponentByRole[role] || ComponentByRole["guest"];
 
 const getDecodeToken = (token) => decodeToken(token) || null;
 
 function App() {
-  const { state} = useContext(GlobalContext);
-
-  // const currentToken = getDecodeToken(state.token);
-
-  // const CurrentUser = getUserRole(currentToken.role);
+  const { state } = useContext(GlobalContext);
 
   const currentToken = state.token ? getDecodeToken(state.token) : null;
 
-  const CurrentUser = currentToken ? getUserRole(currentToken.role) : ComponentByRole["guest"];
+  const CurrentUser = currentToken
+    ? getUserRole(currentToken.role)
+    : ComponentByRole["guest"];
   return (
     <div>
       <CurrentUser />
@@ -35,5 +32,3 @@ function App() {
 }
 
 export default App;
-
-

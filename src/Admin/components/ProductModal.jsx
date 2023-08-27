@@ -5,11 +5,14 @@ import Modal from "react-bootstrap/Modal";
 import { storage } from "../utils/FirebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export default function ProductModal({ recallData }) {
+export default function ProductModal({
+  mode,
+  product,
+  onClose,
+  onSave,
+  recallData,
+}) {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [ProductName, setProductName] = useState("");
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
@@ -19,26 +22,39 @@ export default function ProductModal({ recallData }) {
   const [categoriesList, setCategoriesList] = useState([]);
 
   useEffect(() => {
+    if (mode === "edit" && product) {
+      setProductName(product.ProductName);
+      setBrand(product.brand);
+      setCategory(product.category);
+      setPrice(product.price);
+    }
+  }, [product, mode]);
+
+  useEffect(() => {
     axios.get("http://localhost:3000/api/brands/allBrands").then((json) => {
       setBrandsList(json.data.Brand);
-      setBrand(json.data.Brand[0].BrandName);
+      if (!brand) setBrand(json.data.Brand[0].BrandName);
     });
-  }, []);
+  }, [brand]);
 
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/category/allCategories")
       .then((json) => {
         setCategoriesList(json.data);
-        setCategory(json.data[0].CategoryName);
+        if (!category) setCategory(json.data[0].CategoryName);
       });
-  }, []);
+  }, [category]);
 
-  const AddProduct = (e) => {
+  const handleModalClose = () => {
+    setShow(false);
+    if (onClose) onClose();
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const storageRef = ref(storage, `images/${ProductImage.name}`);
-
     uploadBytes(storageRef, ProductImage).then((snapshot) => {
       getDownloadURL(snapshot.ref)
         .then((url) => {
@@ -50,36 +66,58 @@ export default function ProductModal({ recallData }) {
             price,
           };
 
-          axios
-            .post("http://localhost:3000/api/products/createProduct", payload)
-            .then((response) => {
-              console.log(response.data);
-              recallData(response.data.Product);
-              handleClose();
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
+          if (mode === "edit") {
+            axios
+              .put(
+                `http://localhost:3000/api/products/updateProduct/${product._id}`,
+                payload
+              )
+              .then((response) => {
+                if (onSave) onSave(payload);
+                handleModalClose();
+              })
+              .catch((error) => {
+                console.error(error.message);
+              });
+          } else {
+            axios
+              .post("http://localhost:3000/api/products/createProduct", payload)
+              .then((response) => {
+                if (recallData) recallData(response.data.Product);
+                handleModalClose();
+              })
+              .catch((error) => {
+                console.error(error.message);
+              });
+          }
         })
         .catch((error) => {
-          console.log(error.message);
+          console.error(error.message);
         });
     });
   };
 
   return (
     <>
-      <Button variant="light text-black" onClick={handleShow}>
-        Add Product
-      </Button>
+      {mode !== "edit" && (
+        <Button variant="light text-black" onClick={() => setShow(true)}>
+          Add Product
+        </Button>
+      )}
 
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
+      <Modal
+        show={show || mode === "edit"}
+        onHide={handleModalClose}
+        centered
+        backdrop="static"
+      >
         <Modal.Header closeButton>
-          <Modal.Title >ADD Product</Modal.Title>
+          <Modal.Title>
+            {mode === "edit" ? "Edit Product" : "Create Product"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          ,, jdtryiynn{" "}
-          <form onSubmit={AddProduct}>
+          <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="ProductName" className="form-label">
                 Product Name
@@ -93,31 +131,6 @@ export default function ProductModal({ recallData }) {
               />
             </div>
 
-            {/* <div className="mb-3">
-              <label htmlFor="category" className="form-label">
-                Category
-              </label>
-              <input
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                type="text"
-                className="form-control"
-                id="category"
-              />
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="brand" className="form-label">
-            Brand
-              </label>
-              <input
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-                type="text"
-                className="form-control"
-                id="brand"
-              />
-            </div> */}
             <div className="mb-3">
               <label htmlFor="category" className="form-label">
                 Category

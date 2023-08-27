@@ -28,7 +28,6 @@ export default function User() {
           path="/products/category/:category"
           element={<ProductsByCategory />}
         />
-
         <Route path="/products/:_id" element={<ProductPage />} />
         <Route path="/category" element={<Category />} />
         <Route path="/profile" element={<Profile />} />

@@ -1,23 +1,36 @@
-import React, { useState } from "react";
-import axios from "axios"; 
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { storage } from "../utils/FirebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export default function BrandModal() {
+export default function BrandModal({
+  mode,
+  brand,
+  onClose,
+  onSave,
+  recallData,
+}) {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [BrandName, setBrandName] = useState("");
   const [BrandImage, setBrandImage] = useState(null);
 
-  const AddBrand = (e) => {
+  useEffect(() => {
+    if (mode === "edit" && brand) {
+      setBrandName(brand.BrandName);
+    }
+  }, [brand, mode]);
+
+  const handleModalClose = () => {
+    setShow(false);
+    if (onClose) onClose();
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const storageRef = ref(storage, `images/${BrandImage.name}`);
-
     uploadBytes(storageRef, BrandImage).then((snapshot) => {
       getDownloadURL(snapshot.ref)
         .then((url) => {
@@ -26,34 +39,52 @@ export default function BrandModal() {
             BrandImage: url,
           };
 
-          axios
-            .post("http://localhost:3000/api/brands/createBrand", payload) 
-            .then((response) => {
-              console.log(response.data);
-              handleClose();
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
+          if (mode === "edit") {
+            axios
+              .put(
+                `http://localhost:3000/api/brands/updateBrand/${brand._id}`,
+                payload
+              )
+              .then((response) => {
+                if (onSave) onSave(payload);
+                handleModalClose();
+              })
+              .catch((error) => console.error(error.message));
+          } else {
+            axios
+              .post("http://localhost:3000/api/brands/createBrand", payload)
+              .then((response) => {
+                if (recallData) recallData(response.data.Brand);
+                handleModalClose();
+              })
+              .catch((error) => console.error(error.message));
+          }
         })
-        .catch((error) => {
-          console.log(error.message);
-        });
+        .catch((error) => console.error(error.message));
     });
   };
 
   return (
     <>
-      <Button variant="light text-black" onClick={handleShow}>
-        Add Brand
-      </Button>
+      {mode !== "edit" && (
+        <Button variant="light text-black" onClick={() => setShow(true)}>
+          Add Brand
+        </Button>
+      )}
 
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
+      <Modal
+        show={show || mode === "edit"}
+        onHide={handleModalClose}
+        centered
+        backdrop="static"
+      >
         <Modal.Header closeButton>
-          <Modal.Title>ADD BRAND</Modal.Title>
+          <Modal.Title>
+            {mode === "edit" ? "Edit Brand" : "Add Brand"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={AddBrand}>
+          <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="BrandName" className="form-label">
                 Brand Name

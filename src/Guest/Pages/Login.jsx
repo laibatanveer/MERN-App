@@ -53,7 +53,6 @@ function Login() {
           className="card-body rounded-5 "
           style={{
             height: "45vh",
-            width: "25vw",
           }}
         >
           <h3 className="text-center mb-4">LOGIN</h3>

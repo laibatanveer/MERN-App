@@ -1,24 +1,36 @@
-
-import React, { useState } from "react";
-import axios from "axios"; 
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { storage } from "../utils/FirebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export default function CategoryModal({recallData}) {
+export default function CategoryModal({
+  mode,
+  category,
+  onClose,
+  onSave,
+  recallData,
+}) {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [CategoryName, setCategoryName] = useState("");
   const [CategoryImage, setCategoryImage] = useState(null);
 
-  const AddCategory = (e) => {
+  useEffect(() => {
+    if (mode === "edit" && category) {
+      setCategoryName(category.CategoryName);
+    }
+  }, [category, mode]);
+
+  const handleModalClose = () => {
+    setShow(false);
+    if (onClose) onClose();
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const storageRef = ref(storage, `images/${CategoryImage.name}`);
-
     uploadBytes(storageRef, CategoryImage).then((snapshot) => {
       getDownloadURL(snapshot.ref)
         .then((url) => {
@@ -27,38 +39,55 @@ export default function CategoryModal({recallData}) {
             CategoryImage: url,
           };
 
-          axios
-            .post("http://localhost:3000/api/category/createCategory", payload) 
-            .then((response) => {
-              // console.log(response.data.category);
-              recallData(response.data.category)
-              handleClose(); 
-            
-            })
-            .catch((error) => {
-              console.log(error.message);
-              
-            });
+          if (mode === "edit") {
+            axios
+              .put(
+                `http://localhost:3000/api/category/updateCategory/${category._id}`,
+                payload
+              )
+              .then((response) => {
+                if (onSave) onSave(payload);
+                handleModalClose();
+              })
+              .catch((error) => console.error(error.message));
+          } else {
+            axios
+              .post(
+                "http://localhost:3000/api/category/createCategory",
+                payload
+              )
+              .then((response) => {
+                if (recallData) recallData(response.data.category);
+                handleModalClose();
+              })
+              .catch((error) => console.error(error.message));
+          }
         })
-        .catch((error) => {
-          console.log(error.message);
-          
-        });
+        .catch((error) => console.error(error.message));
     });
   };
 
   return (
     <>
-      <Button variant="light text-black" onClick={handleShow}>
-        Add Category
-      </Button>
+      {mode !== "edit" && (
+        <Button variant="light text-black" onClick={() => setShow(true)}>
+          Add Category
+        </Button>
+      )}
 
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
+      <Modal
+        show={show || mode === "edit"}
+        onHide={handleModalClose}
+        centered
+        backdrop="static"
+      >
         <Modal.Header closeButton>
-          <Modal.Title>ADD CATEGORY</Modal.Title>
+          <Modal.Title>
+            {mode === "edit" ? "Edit Category" : "Create Category"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={AddCategory}>
+          <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="CategoryName" className="form-label">
                 Category Name

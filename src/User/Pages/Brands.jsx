@@ -10,7 +10,6 @@ export default function Brands() {
     axios
       .get("http://localhost:3000/api/brands/allBrands")
       .then((response) => {
-    
         setBrands(response.data.Brand);
       })
       .catch((err) => alert(err.message));

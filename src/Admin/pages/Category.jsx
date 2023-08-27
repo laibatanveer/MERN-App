@@ -1,34 +1,53 @@
 import React, { useState, useEffect } from "react";
-// import { BsFillPencilFill } from "react-icons/bs";
-import { AiFillDelete } from "react-icons/ai";
+import { AiOutlineEdit, AiFillDelete } from "react-icons/ai";
 import CategoryModal from "../components/CategoryModal";
 import axios from "axios";
 
 export default function Category() {
   const [category, setCategory] = useState([]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/category/allCategories")
-      .then((json) => setCategory(json.data))
+      .then((response) => setCategory(response.data))
       .catch((error) => console.log(error));
   }, []);
 
+  function updateCategory(id, updatedData) {
+    axios
+      .put(
+        `http://localhost:3000/api/category/updateCategory/${id}`,
+        updatedData
+      )
+      .then((response) => {
+        const updatedCategories = category.map((cat) =>
+          cat._id === id ? { ...cat, ...updatedData } : cat
+        );
+        setCategory(updatedCategories);
+      })
+      .catch((error) => console.error("Error:", error));
+  }
+
+  function openEditModal(category) {
+    setSelectedCategory(category);
+    setIsEditModalOpen(true);
+  }
+
   function deleteCategory(id) {
-    console.log(id);
     axios
       .delete(`http://localhost:3000/api/category/deleteCategory/${id}`)
-      .then((json) => {
-        setCategory(json.data.category);
-        console.log(json.data);
+      .then((response) => {
+        setCategory(response.data.category);
       })
       .catch((error) => console.error("Error:", error));
   }
 
   return (
-    <div className="container ">
+    <div className="container">
       <div className="d-flex justify-content-between align-items-center bg-warning p-2 my-3 rounded">
-        <span className="fs-4 fw-bold text-black ">CATEGORIES</span>
+        <span className="fs-4 fw-bold text-black">CATEGORIES</span>
         <CategoryModal recallData={setCategory} />
       </div>
 
@@ -56,6 +75,15 @@ export default function Category() {
                 </td>
                 <td>
                   <button
+                    className="btn btn-warning mx-1"
+                    onClick={() => openEditModal(val)}
+                  >
+                    <AiOutlineEdit />
+                  </button>
+                </td>
+
+                <td>
+                  <button
                     className="btn btn-dark mx-1"
                     onClick={() => deleteCategory(val._id)}
                   >
@@ -67,6 +95,18 @@ export default function Category() {
           </tbody>
         </table>
       </div>
+
+      {isEditModalOpen && (
+        <CategoryModal
+          mode="edit"
+          category={selectedCategory}
+          onClose={() => setIsEditModalOpen(false)}
+          onSave={(updatedData) => {
+            updateCategory(selectedCategory._id, updatedData);
+            setIsEditModalOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 }

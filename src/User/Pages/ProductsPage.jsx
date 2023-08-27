@@ -34,8 +34,6 @@ export default function ProductsPage() {
       rating: ratingStar,
     };
 
-    // console.log(payload);
-
     setSubmittedReviews((prevReviews) => [...prevReviews, payload]);
 
     Swal.fire({
@@ -53,7 +51,7 @@ export default function ProductsPage() {
     const payload = {
       ...Product,
       productQuantity,
-      totalPrice:  Product.price  * productQuantity,
+      totalPrice: Product.price * productQuantity,
     };
 
     console.log(payload);
@@ -79,7 +77,7 @@ export default function ProductsPage() {
       .get(`http://localhost:3000/api/products/product/${_id}`)
       .then((response) => {
         setProduct(response.data.foundProduct);
-        // setProduct(response.data.Product[0]);
+
         console.log(response.data.foundProduct);
       })
       .catch((error) => {

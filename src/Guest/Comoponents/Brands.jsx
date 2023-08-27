@@ -32,8 +32,8 @@ export default function Brands() {
                 <div className="mt-auto ">
                   <Card.Img
                     variant="top"
-                    className="card-image "
-                    style={{ height: "50vh" }}
+                    className="img-fluid "
+                    style={{ height: "40vh" }}
                     src={brand.BrandImage}
                   />
                 </div>

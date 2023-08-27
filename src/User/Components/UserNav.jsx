@@ -12,8 +12,6 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 function UserNav() {
-  // const { _id } = useParams();
-
   const { state, dispatch } = useContext(GlobalContext);
 
   const [showModal, setShowModal] = useState(false);
@@ -26,7 +24,7 @@ function UserNav() {
         `http://localhost:3000/api/order/${orderId}`
       );
       setOrderDetails(response.data);
-      console.log(response.data)
+      console.log(response.data);
     } catch (error) {
       console.error("Error tracking order:", error);
     }
@@ -70,7 +68,6 @@ function UserNav() {
             <Link className="nav-link fw-normal me-5" to="/products">
               <h4>Products</h4>
             </Link>
-         
 
             <div className="d-flex gap-3">
               <Link
@@ -97,51 +94,87 @@ function UserNav() {
               </button>
 
               <Modal show={showModal} onHide={handleClose}>
-    <Modal.Header closeButton>
-        <Modal.Title>Order Details</Modal.Title>
-    </Modal.Header>
-    <Modal.Body className="text-center">
-        <input
-            className="bg-rounded bg-shadow mb-3"
-            type="text"
-            value={orderId}
-            onChange={(e) => setOrderId(e.target.value)}
-            placeholder="Enter Order ID"
-        />
-        <Button className="btn btn-warning ms-2" onClick={handleTrackOrder}>
-            Fetch Order
-        </Button>
+                <Modal.Header closeButton>
+                  <Modal.Title>Order Details</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="text-center">
+                  <input
+                    className="bg-rounded bg-shadow mb-3"
+                    type="text"
+                    value={orderId}
+                    onChange={(e) => setOrderId(e.target.value)}
+                    placeholder="Enter Order ID"
+                  />
+                  <Button
+                    className="btn btn-warning ms-2"
+                    onClick={handleTrackOrder}
+                  >
+                    Fetch Order
+                  </Button>
 
-        {orderDetails && (
-            <div className="mt-3">
-                <h5>Customer Details</h5>
-                <p><strong>Name:</strong> {orderDetails.customerName}</p>
-                <p><strong>Email:</strong> {orderDetails.customerEmail}</p>
-                <p><strong>Contact:</strong> {orderDetails.customerContact}</p>
-                <p><strong>Address:</strong> {orderDetails.customerAddress}</p>
+                  {orderDetails && (
+                    <div className="mt-3">
+                      <h5>Customer Details</h5>
+                      <p>
+                        <strong>Name:</strong> {orderDetails.customerName}
+                      </p>
+                      <p>
+                        <strong>Email:</strong> {orderDetails.customerEmail}
+                      </p>
+                      <p>
+                        <strong>Contact:</strong> {orderDetails.customerContact}
+                      </p>
+                      <p>
+                        <strong>Address:</strong> {orderDetails.customerAddress}
+                      </p>
 
-                <h5 className="mt-4">Ordered Products</h5>
-                {orderDetails.order.map(product => (
-                    <div key={product._id} className="text-center card mt-3">
-                        <div className="card-body">
-                            <img src={product.ProductImage} alt={product.ProductName} style={{ width: '50px', marginRight: '20px' }} />
-                            <p><strong>Product Name:</strong> {product.ProductName}</p>
-                            <p><strong>Brand:</strong> {product.brand}</p>
-                            <p><strong>Category:</strong> {product.category}</p>
-                            <p><strong>Price:</strong> ${product.price}</p>
-                            <p><strong>Quantity:</strong> {product.productQuantity}</p>
-                            <p><strong>Total Price:</strong> ${product.totalPrice}</p>
-                            <p><strong>Status:</strong> Processing</p>
-
+                      <h5 className="mt-4">Ordered Products</h5>
+                      {orderDetails.order.map((product) => (
+                        <div
+                          key={product._id}
+                          className="text-center card mt-3"
+                        >
+                          <div className="card-body">
+                            <img
+                              src={product.ProductImage}
+                              alt={product.ProductName}
+                              style={{ width: "50px", marginRight: "20px" }}
+                            />
+                            <p>
+                              <strong>Product Name:</strong>{" "}
+                              {product.ProductName}
+                            </p>
+                            <p>
+                              <strong>Brand:</strong> {product.brand}
+                            </p>
+                            <p>
+                              <strong>Category:</strong> {product.category}
+                            </p>
+                            <p>
+                              <strong>Price:</strong> ${product.price}
+                            </p>
+                            <p>
+                              <strong>Quantity:</strong>{" "}
+                              {product.productQuantity}
+                            </p>
+                            <p>
+                              <strong>Total Price:</strong> $
+                              {product.totalPrice}
+                            </p>
+                            <p>
+                              <strong>Status:</strong> Processing
+                            </p>
+                          </div>
                         </div>
+                      ))}
+                      <p>
+                        <strong>Order Date:</strong>{" "}
+                        {new Date(orderDetails.order_at).toLocaleDateString()}
+                      </p>
                     </div>
-                ))}
-                <p><strong>Order Date:</strong> {new Date(orderDetails.order_at).toLocaleDateString()}</p>
-            </div>
-        )}
-    </Modal.Body>
-</Modal>
-
+                  )}
+                </Modal.Body>
+              </Modal>
 
               <button
                 className="btn btn-dark"
