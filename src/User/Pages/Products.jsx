@@ -29,14 +29,14 @@ export default function Products() {
           </p>
         </div>
 
-        <div className="row row-cols-1 row-cols-md-3 g-4">
+        <div className="row ">
           {products.map((product, index) => (
-            <div className="col" key={index}>
+            <div className="col-md-4 my-4" key={index}>
               <Link
-                className="text-decoration-none d-flex"
+                className="text-decoration-none"
                 to={`/products/${product._id}`}
               >
-                <Card className="rounded-top bg-light bg-gradient h-100">
+                <Card className="shadow rounded-top bg-light bg-gradient h-100">
                   <Card.Body>
                     <Card.Img
                       className="img-fluid"
@@ -44,7 +44,12 @@ export default function Products() {
                       alt={product.ProductName}
                     />
                     <Card.Title className="text-center">
-                      {product.ProductName.toUpperCase()}
+                      <hr />
+                      <small>{product.ProductName.toUpperCase()}</small>
+                      
+
+                      <br />
+                      <small className="fw-light"> {product.price}Rs.</small>
                     </Card.Title>
                   </Card.Body>
                 </Card>

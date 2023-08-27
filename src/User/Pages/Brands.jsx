@@ -29,7 +29,7 @@ export default function Brands() {
               to={`/products/brand/${brand.BrandName}`}
               onClick={() => console.log(`/products/brand/${brand.BrandName}`)}
             >
-              <Card className="rounded-top bg-light bg-gradient h-100">
+              <Card className="shadow rounded-top bg-light bg-gradient h-100">
                 <div className="mt-auto ">
                   <Card.Img
                     variant="top"

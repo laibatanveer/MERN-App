@@ -21,7 +21,7 @@ export default function Category() {
         <h2>CATEGORIES</h2>
       </div>
 
-      <div className="d-flex justify-content-center align-items-center">
+      <div className="row">
         {categories.map((category, index) => (
           <div className="col-md-4 my-4" key={index}>
             <Link
@@ -31,7 +31,7 @@ export default function Category() {
                 console.log(`/products/category/${category.CategoryName}`)
               }
             >
-              <Card className="shadow p-2 mb-2 bg-body-tertiary rounded d-flex flex-column ">
+              <Card className="shadow rounded-top bg-light bg-gradient h-100">
                 <div className="mt-auto ">
                   <Card.Img
                     variant="top"
