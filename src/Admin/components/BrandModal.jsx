@@ -42,7 +42,7 @@ export default function BrandModal({
           if (mode === "edit") {
             axios
               .put(
-                `http://localhost:3000/api/brands/updateBrand/${brand._id}`,
+                `/api/brands/updateBrand/${brand._id}`,
                 payload
               )
               .then((response) => {
@@ -52,7 +52,7 @@ export default function BrandModal({
               .catch((error) => console.error(error.message));
           } else {
             axios
-              .post("http://localhost:3000/api/brands/createBrand", payload)
+              .post("/api/brands/createBrand", payload)
               .then((response) => {
                 if (recallData) recallData(response.data.Brand);
                 handleModalClose();

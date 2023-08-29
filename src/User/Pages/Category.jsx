@@ -8,7 +8,7 @@ export default function Category() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/category/allCategories")
+      .get("/api/category/allCategories")
       .then((json) => {
         setCategories(json.data);
       })

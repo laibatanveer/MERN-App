@@ -8,7 +8,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/category/allCategories")
+      .get("/api/category/allCategories")
       .then((json) => setCategory(json.data))
       .catch((error) => console.log(error));
   }, []);

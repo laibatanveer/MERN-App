@@ -10,7 +10,7 @@ export default function Category() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/category/allCategories")
+      .get("/api/category/allCategories")
       .then((response) => setCategory(response.data))
       .catch((error) => console.log(error));
   }, []);
@@ -18,7 +18,7 @@ export default function Category() {
   function updateCategory(id, updatedData) {
     axios
       .put(
-        `http://localhost:3000/api/category/updateCategory/${id}`,
+        `/api/category/updateCategory/${id}`,
         updatedData
       )
       .then((response) => {
@@ -37,7 +37,7 @@ export default function Category() {
 
   function deleteCategory(id) {
     axios
-      .delete(`http://localhost:3000/api/category/deleteCategory/${id}`)
+      .delete(`/api/category/deleteCategory/${id}`)
       .then((response) => {
         setCategory(response.data.category);
       })

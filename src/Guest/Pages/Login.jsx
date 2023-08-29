@@ -16,7 +16,7 @@ function Login() {
 
     const payload = { email, password };
     axios
-      .post("http://localhost:3000/api/registration/login", payload)
+      .post("/api/registration/login", payload)
       .then((json) => {
         Cookies.set("token", json.data.token);
 
@@ -46,23 +46,22 @@ function Login() {
   return (
     <div
       className="d-flex justify-content-center align-items-center"
-      style={{ height: "100vh" }}
+      style={{ height: "85vh" }}
     >
-      <div className="card rounded-5 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+      <div className="card rounded-5 shadow-lg p-3 mb-5 bg-body-tertiary rounded ">
         <div
-          className="card-body rounded-5 "
-          style={{
-            height: "45vh",
-          }}
+          className="card-body rounded-5 h-100"
+          
         >
           <h3 className="text-center mb-4">LOGIN</h3>
+          <div className="mb-5">
           <form onSubmit={handleLogin}>
             <div className="form-group">
               <label htmlFor="email">
                 {" "}
                 <FaUserAlt /> Email
               </label>
-              <div className="input-group">
+              <div className="input-group my-3">
                 <input
                   type="text"
                   className="form-control rounded-pill"
@@ -77,7 +76,7 @@ function Login() {
               <label htmlFor="password">
                 <FaUserLock /> Password
               </label>
-              <div className="input-group">
+              <div className="input-group my-3">
                 <input
                   type="password"
                   className="form-control rounded-pill"
@@ -88,19 +87,22 @@ function Login() {
                 />
               </div>
             </div>
-            <button
+            <div className="d-flex justify-content-center">  <button
               type="submit"
-              className="mt-4 btn btn-success btn-block position-absolute top-60 start-50 translate-middle"
+              className=" btn btn-success btn-block "
             >
               Login
-            </button>
+            </button></div>
+          
           </form>
-          <p className="mt-5 text-center">
+          <p className=" mt-2 text-center">
             Don't have an account?{" "}
             <Link to="/signup" className="text-decoration-none">
               Sign Up
             </Link>
           </p>
+          </div>
+      
         </div>
       </div>
     </div>

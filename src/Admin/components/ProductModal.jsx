@@ -31,7 +31,7 @@ export default function ProductModal({
   }, [product, mode]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/brands/allBrands").then((json) => {
+    axios.get("/api/brands/allBrands").then((json) => {
       setBrandsList(json.data.Brand);
       if (!brand) setBrand(json.data.Brand[0].BrandName);
     });
@@ -39,7 +39,7 @@ export default function ProductModal({
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/category/allCategories")
+      .get("/api/category/allCategories")
       .then((json) => {
         setCategoriesList(json.data);
         if (!category) setCategory(json.data[0].CategoryName);
@@ -69,7 +69,7 @@ export default function ProductModal({
           if (mode === "edit") {
             axios
               .put(
-                `http://localhost:3000/api/products/updateProduct/${product._id}`,
+                `/api/products/updateProduct/${product._id}`,
                 payload
               )
               .then((response) => {
@@ -81,7 +81,7 @@ export default function ProductModal({
               });
           } else {
             axios
-              .post("http://localhost:3000/api/products/createProduct", payload)
+              .post("/api/products/createProduct", payload)
               .then((response) => {
                 if (recallData) recallData(response.data.Product);
                 handleModalClose();

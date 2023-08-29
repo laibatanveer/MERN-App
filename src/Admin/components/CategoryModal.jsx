@@ -42,7 +42,7 @@ export default function CategoryModal({
           if (mode === "edit") {
             axios
               .put(
-                `http://localhost:3000/api/category/updateCategory/${category._id}`,
+                `/api/category/updateCategory/${category._id}`,
                 payload
               )
               .then((response) => {
@@ -53,7 +53,7 @@ export default function CategoryModal({
           } else {
             axios
               .post(
-                "http://localhost:3000/api/category/createCategory",
+                "/api/category/createCategory",
                 payload
               )
               .then((response) => {

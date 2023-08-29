@@ -6,7 +6,7 @@ import User from "./User";
 import { GlobalContext } from "./Context/context";
 import { decodeToken } from "react-jwt";
 
-export const AppRoute = 'http://localhost:3000/'
+export const AppRoute = '/'
 
 const ComponentByRole = {
   admin: Admin,

@@ -16,7 +16,7 @@ export default function Brands() {
 
   const fetchBrands = () => {
     axios
-      .get("http://localhost:3000/api/brands/allBrands")
+      .get("/api/brands/allBrands")
       .then((json) => {
         setBrands(json.data.Brand);
       })
@@ -25,7 +25,7 @@ export default function Brands() {
 
   const updateBrand = (_id, updatedData) => {
     axios
-      .put(`http://localhost:3000/api/brands/updateBrand/${_id}`, updatedData)
+      .put(`/api/brands/updateBrand/${_id}`, updatedData)
       .then((json) => {
         fetchBrands();
         setShowUpdateModal(false);
@@ -35,7 +35,7 @@ export default function Brands() {
 
   const deleteBrand = (id) => {
     axios
-      .delete(`http://localhost:3000/api/brands/deleteBrand/${id}`)
+      .delete(`/api/brands/deleteBrand/${id}`)
       .then((json) => {
         fetchBrands();
       })

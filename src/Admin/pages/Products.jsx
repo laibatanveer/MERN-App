@@ -19,7 +19,7 @@ export default function Products() {
   function updateProduct(id, updatedData) {
     axios
       .put(
-        `http://localhost:3000/api/products/updateProduct/${id}`,
+        `/api/products/updateProduct/${id}`,
         updatedData
       )
       .then((response) => {
@@ -38,7 +38,7 @@ export default function Products() {
 
   function deleteProduct(id) {
     axios
-      .delete(`http://localhost:3000/api/products/deleteProduct/${id}`)
+      .delete(`/api/products/deleteProduct/${id}`)
       .then((response) => {
         setProducts(response.data.product);
       })

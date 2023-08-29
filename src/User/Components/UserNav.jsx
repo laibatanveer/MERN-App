@@ -21,10 +21,10 @@ function UserNav() {
   const handleTrackOrder = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/order/${orderId}`
+        `/api/order/${orderId}`
       );
       setOrderDetails(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error("Error tracking order:", error);
     }
@@ -72,7 +72,7 @@ function UserNav() {
             <div className="d-flex gap-3">
               <Link
                 to="/profile"
-                className="btn d-flex align-items-center gap-3"
+                className="nav-link fw-normal d-flex align-items-center gap-3"
               >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
@@ -81,13 +81,12 @@ function UserNav() {
                 />
                 <h4> Profile</h4>
               </Link>
-              <button className="btn ">
-                <h4>
-                  <Link to="/cart" className="text-black">
-                    Cart
-                  </Link>
-                </h4>
-              </button>
+
+              <h4>
+                <Link to="/cart" className="text-black nav-link fw-normal">
+                  Cart
+                </Link>
+              </h4>
 
               <button className="btn " onClick={handleShow}>
                 <h4>Track order</h4>
@@ -113,7 +112,7 @@ function UserNav() {
                   </Button>
 
                   {orderDetails && (
-                    <div className="mt-3">
+                    <div className="mt-3  ">
                       <h5>Customer Details</h5>
                       <p>
                         <strong>Name:</strong> {orderDetails.customerName}

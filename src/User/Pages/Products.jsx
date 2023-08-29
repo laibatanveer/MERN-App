@@ -9,7 +9,7 @@ export default function Products() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/products/allProducts")
+      .get("/api/products/allProducts")
       .then((json) => setProducts(json.data.Product))
       .catch((error) => console.log(error));
   }, []);

@@ -10,7 +10,7 @@ export default function ProductsByBrand() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/products/brand/${brand}`)
+      .get(`/api/products/brand/${brand}`)
       .then((response) => {
         setProducts(response.data.products);
       })
@@ -49,7 +49,17 @@ export default function ProductsByBrand() {
                       alt={product.ProductName}
                     />
                     <Card.Title className="text-center">
-                      {product.ProductName.toUpperCase()}
+                      <hr />
+                      <small>{product.ProductName.toUpperCase()}</small>
+
+                      <br />
+                      <small className="fw-light fst-italic">
+                        {" "}
+                        {product.brand}
+                      </small>
+                      <br />
+                      <br />
+                      <small className="fw-light"> {product.price}Rs.</small>
                     </Card.Title>
                   </Card.Body>
                 </Card>

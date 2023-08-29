@@ -24,6 +24,8 @@ export default function ProductsPage() {
   };
 
   const { cart_state, cart_dispatch } = useContext(CartContext);
+  const checkItem = cart_state.cart.some((item) => item._id == _id);
+  console.log(checkItem);
 
   const submitReview = () => {
     const payload = {
@@ -74,7 +76,7 @@ export default function ProductsPage() {
     console.log(_id);
 
     axios
-      .get(`http://localhost:3000/api/products/product/${_id}`)
+      .get(`/api/products/product/${_id}`)
       .then((response) => {
         setProduct(response.data.foundProduct);
 
@@ -84,6 +86,9 @@ export default function ProductsPage() {
         console.log("Error fetching product:", error);
       });
   }, []);
+  const removeFromCart = (productId) => {
+    cart_dispatch({ type: "REMOVE_FROM_CART", payload: productId });
+  };
 
   return (
     <div className="container">
@@ -118,11 +123,18 @@ export default function ProductsPage() {
             <RiArrowDropUpLine />
           </button>
         </div>
-
-        <button className="btn btn-dark" onClick={addToCart}>
-          <RiShoppingCartLine className="mr-2" />
-          Add to Cart
-        </button>
+        {checkItem ? (
+           <button
+           className="btn btn-danger"
+           onClick={() => removeFromCart(Product._id)}
+         >
+           Remove
+         </button>
+        ) : (
+          <button className="btn btn-dark" onClick={addToCart}>
+            <RiShoppingCartLine className="mr-2" />Add to cart
+          </button>
+        )}
       </div>
 
       <div className="row">
